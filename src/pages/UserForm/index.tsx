@@ -4,32 +4,57 @@ import { useTheme } from '../../hooks/useTheme';
 interface userSchema {
 	name: string;
 	email: string;
+	countryCode: string;
 	phone: string;
 	password: string;
 }
+
+type CountryOption = {
+	code: string;
+	dialCode: string;
+	label: string;
+	flag: string;
+	placeholder: string;
+};
+
+const countryOptions: CountryOption[] = [
+	{ code: 'US', dialCode: '+1', label: 'United States', flag: '🇺🇸', placeholder: '123 456 7890' },
+	{ code: 'IN', dialCode: '+91', label: 'India', flag: '🇮🇳', placeholder: '91234 56789' },
+	{ code: 'PK', dialCode: '+92', label: 'Pakistan', flag: '🇵🇰', placeholder: '3012 345678' },
+	{ code: 'GB', dialCode: '+44', label: 'United Kingdom', flag: '🇬🇧', placeholder: '7123 456789' },
+	{ code: 'AE', dialCode: '+971', label: 'United Arab Emirates', flag: '🇦🇪', placeholder: '5012 345678' },
+];
 
 const UserForm = () => {
 	const init: userSchema = {
 		name: '',
 		email: '',
+		countryCode: '+1',
 		phone: '',
 		password: '',
 	};
-  const { theme } = useTheme();
+	const { theme } = useTheme();
 	const [formData, setFormData] = useState<userSchema>(init);
-	const [error, setError] = useState({
+	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [error, setError] = useState<Record<keyof userSchema, string>>({
 		name: '',
 		email: '',
+		countryCode: '',
 		phone: '',
 		password: '',
 	});
 
+	const selectedCountry =
+		countryOptions.find((country) => country.dialCode === formData.countryCode) ||
+		countryOptions[0];
+
 	// Form validation logic (example)
 
-	const validate = (obj) => {
-		const newError = {
+	const validate = (obj: userSchema) => {
+		const newError: Record<keyof userSchema, string> = {
 			name: '',
 			email: '',
+			countryCode: '',
 			phone: '',
 			password: '',
 		};
@@ -43,28 +68,32 @@ const UserForm = () => {
 		}
 		if (!obj.phone) {
 			newError.phone = 'Phone number is required';
-		} else if (!/^\d{10}$/.test(obj.phone)) {
-			newError.phone = 'Phone number must be 10 digits';
+		} else if (!/^\d{7,15}$/.test(obj.phone)) {
+			newError.phone = 'Phone number must contain 7 to 15 digits';
 		}
 		if (!obj.password) {
 			newError.password = 'Password is required';
-		} else if (obj.password.length < 6) {
-			newError.password = 'Password must be at least 6 characters';
+		} else if (
+			!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(obj.password)
+		) {
+			newError.password =
+				'Password must be 8+ chars, include uppercase, lowercase, number & special character';
 		}
 		setError(newError);
-    console.log("newError: ", newError);
+		console.log('newError: ', newError);
 		return Object.values(newError).every((val) => val === '');
 	};
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 		const { name, value } = e.target;
+		const fieldName = name as keyof userSchema;
 		setFormData((prevState) => ({
 			...prevState,
-			[name]: value,
+			[fieldName]: value,
 		}));
 		setError((prev) => ({
 			...prev,
-			[name]: undefined,
+			[fieldName]: '',
 		}));
 	};
 
@@ -73,7 +102,7 @@ const UserForm = () => {
 
 		const isvalid = validate(formData);
 		if (!isvalid) {
-      console.log('validation failed');
+			console.log('validation failed');
 			return;
 		}
 		// Handle form submission logic here
@@ -82,7 +111,9 @@ const UserForm = () => {
 	};
 
 	return (
-		<div className={`max-w-md mx-auto mt-8 p-6 ${theme === 'dark' ? "dark:bg-gray-800": "bg-white"} rounded-lg shadow-lg`}>
+		<div
+			className={`max-w-md mx-auto mt-8 p-6 ${theme === 'dark' ? 'dark:bg-gray-800' : 'bg-white'} rounded-lg shadow-lg`}
+		>
 			<h1 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
 				User Form
 			</h1>
@@ -143,15 +174,35 @@ const UserForm = () => {
 					>
 						Phone:
 					</label>
-					<input
-						type="tel"
-						id="phone"
-						name="phone"
-						value={formData.phone}
-						onChange={handleChange}
-						className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-						placeholder="Enter your phone number"
-					/>
+					<div className="flex gap-2">
+						<div className="relative w-40">
+							<select
+								id="countryCode"
+								name="countryCode"
+								value={formData.countryCode}
+								onChange={handleChange}
+								className="w-full appearance-none px-3 py-2 pr-8 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-700 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+							>
+								{countryOptions.map((country) => (
+									<option key={country.code} value={country.dialCode}>
+										{country.flag} {country.dialCode}
+									</option>
+								))}
+							</select>
+							<span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-400">
+								▾
+							</span>
+						</div>
+						<input
+							type="tel"
+							id="phone"
+							name="phone"
+							value={formData.phone}
+							onChange={handleChange}
+							className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+							placeholder={selectedCountry.placeholder}
+						/>
+					</div>
 					{/* phone error message */}
 					{error.phone && (
 						<p className="mt-1 text-sm text-red-600 dark:text-red-500">
@@ -160,29 +211,32 @@ const UserForm = () => {
 					)}
 				</div>
 
-				<div>
-					<label
-						htmlFor="password"
-						className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-					>
-						Password:
-					</label>
+				<div className="relative">
 					<input
-						type="password"
+						type={showPassword ? 'text' : 'password'}
 						id="password"
 						name="password"
 						value={formData.password}
 						onChange={handleChange}
-						className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+						className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
 						placeholder="Enter your password"
 					/>
-					{/* password error message */}
-					{error.password && (
-						<p className="mt-1 text-sm text-red-600 dark:text-red-500">
-							{error.password}
-						</p>
-					)}
+
+					{/* Show/Hide Button */}
+					<button
+						type="button"
+						onClick={() => setShowPassword((prev) => !prev)}
+						className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-600"
+					>
+						{showPassword ? 'Hide' : 'Show'}
+					</button>
 				</div>
+        {/* password error message */}
+        {error.password && (
+          <p className="mt-1 text-sm text-red-600 dark:text-red-500">
+            {error.password}
+          </p>
+        )}
 
 				<button
 					type="submit"

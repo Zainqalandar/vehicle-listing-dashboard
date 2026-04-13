@@ -16,7 +16,7 @@ type ThemeProviderProps = {
 export { ThemeContext };
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-	const [theme, setTheme] = React.useState<Theme>('light');
+	const [theme, setTheme] = React.useState<Theme>('dark');
 
 	const toggleTheme = () => {
 		setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
