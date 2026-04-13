@@ -22,7 +22,7 @@ const Home = () => {
 			<h1 className="text-center text-3xl font-bold my-5 text-gray-800 dark:text-white">
 				Vehicle Listing Dashboard
 			</h1>
-			<div className="flex justify-between items-center my-5 gap-5 flex-wrap max-w-7xl mx-auto">
+			<div className="flex  justify-between items-center my-5 gap-5 flex-wrap max-w-7xl mx-auto">
 				<SearchFiled setSearch={setSearch} search={search} />
 				<SortComp
 					setSortBy={setSortBy}

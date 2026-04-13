@@ -38,11 +38,13 @@ const ProductList = ({
 
 	return (
 		<div>
-			<div className="flex justify-center mb-5">
-				{isLoading && <Loader />}
-			</div>
+			{isLoading && (
+				<div className="flex justify-center mb-5 items-center gap-2 border-gray-300 dark:border-gray-600 rounded-md p-20">
+					<Loader />
+				</div>
+			)}
 			{data && (
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-5 max-w-7xl mx-auto">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 py-5 max-w-7xl mx-auto">
 					{(data as ProductsSchema).products.map(
 						(product: ProductSchema) => (
 							<ProductCard key={product.id} product={product} />

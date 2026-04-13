@@ -175,7 +175,7 @@ const UserForm = () => {
 						Phone:
 					</label>
 					<div className="flex gap-2">
-						<div className="relative w-40">
+						<div className="relative w-20">
 							<select
 								id="countryCode"
 								name="countryCode"
