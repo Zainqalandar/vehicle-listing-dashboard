@@ -4,9 +4,9 @@ const Footer = () => {
     const { theme, toggleTheme } = useTheme();
 
     return (
-        <footer className={`py-8 mt-auto border-t border-gray-600 sticky bottom-0 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-800'} text-white`}>
+        <footer className="py-8 mt-auto border-t border-gray-600 dark:border-gray-400 fixed bottom-0 left-0 right-0 bg-gray-800 dark:bg-gray-900 text-white">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-8 gap-4">
-                <p className={theme === 'dark' ? 'text-red-400' : 'text-red-300'}>&copy; 2026 Vehicle Listing Dashboard. All rights reserved.</p>
+                <p>&copy; 2026 Vehicle Listing Dashboard. All rights reserved.</p>
                 <div className="flex flex-col md:flex-row items-center gap-4">
                     <div className="flex gap-4">
                         <a href="#" className="text-white no-underline transition-colors duration-300 hover:text-blue-400">Privacy Policy</a>
@@ -15,7 +15,7 @@ const Footer = () => {
                     </div>
                     <button
                         onClick={toggleTheme}
-                        className={`p-2 rounded-md transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-700 hover:bg-gray-600'}`}
+                        className="p-2 rounded-md transition-colors duration-300 bg-gray-700 hover:bg-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700"
                         aria-label="Toggle dark mode"
                     >
                         {theme === 'light' ? (

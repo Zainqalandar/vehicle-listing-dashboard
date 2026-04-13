@@ -1,10 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './pages/home';
-import FormPage from './pages/FormPage';
+// import FormPage from './pages/FormPage';
+import FormPage from './pages/UserForm/index';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import { ThemeProvider } from './context/ThemeProvider';
+import { useTheme } from './hooks/useTheme';
 
 const AppContent = () => {
 	return (
@@ -22,12 +23,14 @@ const AppContent = () => {
 };
 
 function App() {
+	const { theme } = useTheme();
 	return (
-		<ThemeProvider>
-			<div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
-				<AppContent />
-			</div>
-		</ThemeProvider>
+		// <div className="min-h-screen bg-white  text-gray-900 dark:text-white transition-colors duration-300">
+		<div
+			className={`min-h-screen  ${theme === 'dark' ? 'dark:bg-gray-900' : 'bg-white'} text-gray-900 dark:text-white transition-colors duration-300`}
+		>
+			<AppContent />
+		</div>
 	);
 }
 
