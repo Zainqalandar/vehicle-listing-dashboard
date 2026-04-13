@@ -4,7 +4,7 @@ const Footer = () => {
     const { theme, toggleTheme } = useTheme();
 
     return (
-        <footer className="py-8 mt-auto border-t border-gray-600 dark:border-gray-400 fixed bottom-0 left-0 right-0 bg-gray-800 dark:bg-gray-900 text-white">
+        <footer className="py-4 mt-auto border-t border-gray-600 dark:border-gray-400 fixed bottom-0 left-0 right-0 bg-gray-800 dark:bg-gray-900 text-white">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-8 gap-4">
                 <p>&copy; 2026 Vehicle Listing Dashboard. All rights reserved.</p>
                 <div className="flex flex-col md:flex-row items-center gap-4">
