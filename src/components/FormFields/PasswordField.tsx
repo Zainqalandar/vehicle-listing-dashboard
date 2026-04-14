@@ -1,5 +1,5 @@
 import React from 'react';
-import { CountryOption } from '../../types/user';
+import type { CountryOption } from '../../types/user';
 
 interface PhoneFieldProps {
 	countryCode: string;
