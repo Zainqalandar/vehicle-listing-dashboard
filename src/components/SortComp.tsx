@@ -1,6 +1,7 @@
 
 
 import React from 'react';
+import { useTheme } from '../hooks/useTheme';
 
 interface SortCompProps {
 	setSortBy: React.Dispatch<React.SetStateAction<string>>;
@@ -10,6 +11,7 @@ interface SortCompProps {
 }
 
 const SortComp: React.FC<SortCompProps> = ({ setSortBy, setOrder, sortBy, order }) => {
+	const { theme } = useTheme();
 	const handleSortChange = (value: string) => {
 		if (value === 'default') {
 			setSortBy('');
@@ -25,14 +27,14 @@ const SortComp: React.FC<SortCompProps> = ({ setSortBy, setOrder, sortBy, order 
 
 	return (
 		<div className="flex items-center gap-2">
-			<label htmlFor="sort-select" className="font-medium text-gray-700 dark:text-gray-300">
+			<label htmlFor="sort-select" className={`font-medium  ${theme === 'dark' ? 'dark:text-gray-300' : 'text-gray-700'}`}>
 				Sort by:
 			</label>
 			<select
 				id="sort-select"
 				value={currentValue}
 				onChange={(e) => handleSortChange(e.target.value)}
-				className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-40"
+				className={`px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md  ${theme === 'dark' ? 'dark:bg-gray-700 dark:text-white' : 'bg-white text-gray-900'}   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-40`}
 			>
 				<option value="default">Default</option>
 				<option value="price-asc">Price: Low to High</option>

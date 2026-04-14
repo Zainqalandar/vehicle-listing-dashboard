@@ -11,7 +11,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className={`p-0 sticky top-0 z-50 shadow-md ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-800'} text-white`}>
+        <nav className={`p-0 sticky top-0 border-b z-50 shadow-md ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-800'} text-white`}>
             <div className="max-w-7xl mx-auto flex justify-between items-center px-8 py-4">
                 <NavLink to="/" className="text-xl font-bold text-white no-underline transition-colors duration-300 hover:text-blue-400" onClick={() => setIsOpen(false)}>
                     Vehicle Dashboard

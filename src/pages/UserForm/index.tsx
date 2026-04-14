@@ -80,7 +80,6 @@ const UserForm = () => {
 				'Password must be 8+ chars, include uppercase, lowercase, number & special character';
 		}
 		setError(newError);
-		console.log('newError: ', newError);
 		return Object.values(newError).every((val) => val === '');
 	};
 
@@ -102,17 +101,14 @@ const UserForm = () => {
 
 		const isvalid = validate(formData);
 		if (!isvalid) {
-			console.log('validation failed');
 			return;
 		}
-		// Handle form submission logic here
-		console.log(formData);
 		setFormData(init);
 	};
 
 	return (
 		<div
-			className={`max-w-md mx-auto mt-8 p-6 ${theme === 'dark' ? 'dark:bg-gray-800' : 'bg-white'} rounded-lg shadow-lg`}
+			className={`max-w-xl mx-auto mt-16 p-6 ${theme === 'dark' ? 'dark:bg-gray-800' : 'bg-white'} rounded-lg shadow-lg`}
 		>
 			<h1 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
 				User Form

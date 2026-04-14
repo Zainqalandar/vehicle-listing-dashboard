@@ -1,8 +1,6 @@
 export const fetchProducts = async ({ queryKey }: { queryKey: [string, { search?: string; sortBy?: string; order?: 'asc' | 'desc'; limit?: number; skip?: number }] }) => {
 	const [, { search, sortBy, order, limit, skip }] = queryKey;
 
-	console.log('fetching products with params:', { search, sortBy, order, limit, skip });
-
 	let url = 'https://dummyjson.com/products';
 
 	const params = new URLSearchParams();
@@ -33,7 +31,6 @@ export const fetchProducts = async ({ queryKey }: { queryKey: [string, { search?
 	}
 
 	const res = await fetch(url);
-	console.log('fetching products from URL:', url);
 
 	return res.json();
 };
